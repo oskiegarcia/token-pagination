@@ -16,8 +16,11 @@ func main() {
 	}
 	defer db.Close()
 
+	// Wrap *sql.DB with DBLogger
+	dbWrapper := &utils.DBLogger{DB: db}
+
 	// Create items table if not exists
-	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS items (
+	_, err = dbWrapper.Exec(`CREATE TABLE IF NOT EXISTS items (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         name TEXT)`)
 	if err != nil {

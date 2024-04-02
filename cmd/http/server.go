@@ -21,14 +21,14 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 	token := r.URL.Query().Get("token")
 
 	// Parse token
-	offset, err := utils.DecodeToken(token)
+	lastId, err := utils.DecodeToken(token)
 	if err != nil {
 		http.Error(w, "Invalid token", http.StatusBadRequest)
 		return
 	}
 
 	// Query data from database
-	data, totalCount, err := utils.QueryData(offset, pageSize)
+	data, nextID, totalCount := utils.QueryData(lastId, pageSize)
 	if err != nil {
 		http.Error(w, "Failed to query data", http.StatusInternalServerError)
 		return
@@ -36,8 +36,8 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 
 	// Encode nextToken
 	var encodedNextToken string
-	if offset+pageSize <= totalCount {
-		encodedNextToken = utils.EncodeToken(offset + pageSize)
+	if nextID != -1 {
+		encodedNextToken = utils.EncodeToken(nextID)
 	}
 
 	// Create paginated response
