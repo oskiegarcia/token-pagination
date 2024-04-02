@@ -36,7 +36,7 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 
 	// Encode nextToken
 	var encodedNextToken string
-	if offset+pageSize < totalCount {
+	if offset+pageSize <= totalCount {
 		encodedNextToken = utils.EncodeToken(offset + pageSize)
 	}
 
