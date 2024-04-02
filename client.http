@@ -1,0 +1,10 @@
+GET http://localhost:8080/data
+Accept: application/json
+
+###
+GET http://localhost:8080/data?token=Mg==
+Accept: application/json
+
+###
+GET http://localhost:8080/data?token=Mw==
+Accept: application/json
